@@ -37,7 +37,6 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest --pyargs apsw.tests
 
 about:
   home: https://github.com/rogerbinns/apsw

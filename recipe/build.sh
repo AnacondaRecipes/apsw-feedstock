@@ -8,6 +8,6 @@ echo "
 [build_ext]
 use_system_sqlite_config = True" >> setup.apsw
 
-$PYTHON setup.py build --enable=column_metadata,session,preupdate_hook
+$PYTHON setup.py build --enable=column_metadata,rtree,fts5
 $PYTHON setup.py install --single-version-externally-managed --record record.txt
 $PYTHON setup.py test
