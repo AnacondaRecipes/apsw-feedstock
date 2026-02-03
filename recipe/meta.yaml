@@ -34,7 +34,6 @@ test:
     - apsw
   requires:
     - pip
-    - pytest
   commands:
     - pip check
 
