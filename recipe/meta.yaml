@@ -1,46 +1,47 @@
-{% set version = "3.51.2.0" %}
-{% set sqlite_version = "3.51.1" %}
+{% set name = "apsw" %}
+{% set version = "3.51.1.0" %}
 
 package:
-  name: apsw
-  version: {{ version|replace("-", ".") }}
+  name: {{ name }}
+  version: {{ version }}
 
 source:
-  url: https://github.com/rogerbinns/apsw/releases/download/{{ version }}/apsw-{{ version }}.zip
-  sha256: 461d04a8079f48cd729411fd4b3ffe6578903e2eff59c302d3232e5e7587133c
+  url: https://github.com/rogerbinns/apsw/releases/download/{{ version }}/{{ name }}-{{ version }}.zip
+  sha256: b3820bdbc84580c72f6633674ca3dd6a59542c851dc120c0dedf4de7d15ee183
 
 build:
   number: 0
+  skip: true  # [py<310]
+  entry_points:
+    - apsw = apsw.__main__:main
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
   host:
     - pip
     - python
     - setuptools
-    - libsqlite =={{ sqlite_version }}
-
+    - sqlite {{ version }}
   run:
     - python
-    - libsqlite =={{ sqlite_version }}
+    # Version through run_exports
+    - sqlite
 
 test:
-  requires:
-    - python
-    - pip
   imports:
     - apsw
+  requires:
+    - pip
   commands:
     - pip check
 
 about:
-  home: https://github.com/rogerbinns/apsw/
+  home: https://github.com/rogerbinns/apsw
   license: any-OSI
   license_file: LICENSE
+  license_family: OTHER
   summary: APSW stands for Another Python SQLite Wrapper.
   description: |
     APSW is a Python wrapper for the SQLite embedded relational database
