@@ -4,10 +4,11 @@ set -euxo pipefail
 export CFLAGS="-I${PREFIX}/include -DSQLITE_ENABLE_COLUMN_METADATA=1 ${CFLAGS}"
 export LDFLAGS="-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib ${LDFLAGS}"
 
-echo "
-[build_ext]
-use_system_sqlite_config = True" >> setup.apsw
+cat >> setup.apsw << 'EOF'
 
-$PYTHON setup.py build --enable=column_metadata,rtree,fts5
-$PYTHON setup.py install --single-version-externally-managed --record record.txt
-$PYTHON setup.py test
+[build_ext]
+use_system_sqlite_config = True
+enable = column_metadata,rtree,fts5
+EOF
+
+$PYTHON -m pip install . -vv --no-deps --no-build-isolation
